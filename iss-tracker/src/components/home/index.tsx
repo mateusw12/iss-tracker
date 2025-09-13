@@ -24,12 +24,26 @@ export default function ISSGlobe() {
   };
 
   const fetchISS = async () => {
-    const res = await fetch("/api/iss");
-    const data: ISSData = await res.json();
-    setPosition({
-      lat: parseFloat(data.iss_position.latitude),
-      lon: parseFloat(data.iss_position.longitude),
-    });
+    try {
+      const res = await fetch("/api/iss");
+      if (!res.ok) {
+        console.error("Erro na resposta da API ISS:", res.status);
+        return;
+      }
+
+      const data: ISSData = await res.json();
+
+      if (data?.iss_position?.latitude && data?.iss_position?.longitude) {
+        setPosition({
+          lat: parseFloat(data.iss_position.latitude),
+          lon: parseFloat(data.iss_position.longitude),
+        });
+      } else {
+        console.warn("Resposta inesperada da API ISS:", data);
+      }
+    } catch (err) {
+      console.error("Erro ao buscar posição da ISS:", err);
+    }
   };
 
   useEffect(() => {
