@@ -16,7 +16,7 @@ export default function ISSGlobe() {
   });
 
   const createISSMesh = () => {
-    const geometry = new THREE.ConeGeometry(0.6, 1.5, 16); 
+    const geometry = new THREE.ConeGeometry(0.6, 1.5, 16);
     const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = Math.PI / 2;
@@ -24,7 +24,7 @@ export default function ISSGlobe() {
   };
 
   const fetchISS = async () => {
-    const res = await fetch("http://api.open-notify.org/iss-now.json");
+    const res = await fetch("/api/iss");
     const data: ISSData = await res.json();
     setPosition({
       lat: parseFloat(data.iss_position.latitude),
